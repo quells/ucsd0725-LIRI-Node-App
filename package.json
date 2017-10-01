@@ -2,7 +2,7 @@
   "name": "liri-node-app",
   "version": "0.0.1",
   "description": "Web API CLI Demo App",
-  "main": "index.js",
+  "main": "liri.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
