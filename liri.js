@@ -22,6 +22,17 @@ var omdb = require("./omdb.js")
 var TwitterClient = new Twitter(keys.twitter)
 var SpotifyClient = new Spotify(keys.spotify)
 
+function DisplaySong(response) {
+  var artists = []
+  response.album.artists.forEach((a) => {
+    artists.push(a.name)
+  })
+  console.log("Artist/s: " + artists.join(", "))
+  console.log("Song: " + response.name)
+  console.log("Album: " + response.album.name)
+  console.log(response.external_urls.spotify)
+}
+
 function HandleCommand(cmd, arg) {
   switch (cmd) {
     case "my-tweets":
@@ -34,8 +45,15 @@ function HandleCommand(cmd, arg) {
           }
         })
     case "spotify-this-song":
-      return Promise.resolve("spotify")
-        .then((t) => console.log(t))
+      if (arg === undefined) {
+        return SpotifyClient.request("https://api.spotify.com/v1/tracks/0hrBpAOgrt8RXigk83LLNE")
+          .then((response) => DisplaySong(response))
+          .catch((err) => console.error(err))
+      } else {
+        return SpotifyClient.search({type: "track", query: arg})
+          .then((response) => DisplaySong(response.tracks.items[0]))
+          .catch((err) => console.error(err))
+      }
     case "movie-this":
       if (arg === undefined) {
         return omdb.Fallback()
