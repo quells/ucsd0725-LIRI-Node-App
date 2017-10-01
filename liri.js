@@ -78,10 +78,9 @@ function HandleCommand(cmd, arg) {
           for (var i = 0; i < pairs.length; i++) {
             p = p.then((pairs) => {
               var pair = pairs[0]
-              var pairs = pairs.slice(1)
               console.log("\n" + pair.join(" "))
               return HandleCommand(pair[0], pair[1])
-                .then(() => pairs)
+                .then(() => pairs.slice(1))
             })
           }
         })
