@@ -15,17 +15,24 @@ fs.readFileAsync = function(filename) {
 var Twitter = require("twitter")
 var Spotify = require("node-spotify-api")
 
-var twitterKeys = require("./keys.js")
-//var client = new Twitter(twitterKeys)
-
+var keys = require("./keys.js")
 var utils = require("./utils.js")
 var omdb = require("./omdb.js")
+
+var TwitterClient = new Twitter(keys.twitter)
+var SpotifyClient = new Spotify(keys.spotify)
 
 function HandleCommand(cmd, arg) {
   switch (cmd) {
     case "my-tweets":
-      return Promise.resolve("twitter")
-        .then((t) => console.log(t))
+      return TwitterClient.get("statuses/home_timeline", {count: 20})
+        .then((tweets, response) => tweets)
+        .then((tweets) => {
+          for (var i = 0; i < tweets.length; i++) {
+            var t = tweets[i]
+            console.log("At " + t.created_at + ", @" + t.user.screen_name + " said: `" + t.text + "`")
+          }
+        })
     case "spotify-this-song":
       return Promise.resolve("spotify")
         .then((t) => console.log(t))
