@@ -1,6 +1,6 @@
 console.log("keys.js loaded")
 
-exports.twitterKeys = {
+module.exports = {
     consumer_key: "",
     consumer_secret: "",
     access_token_key: "",

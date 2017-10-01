@@ -1,8 +1,7 @@
 
 var Twitter = require("twitter")
 var Spotify = require("node-spotify-api")
-var request = require("request")
 
 var twitterKeys = require("./keys.js")
+//var client = new Twitter(twitterKeys)
 
-console.log(twitterKeys)
