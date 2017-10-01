@@ -1,22 +1,20 @@
 
-var request = require("request")
+var request = require("request-promise-native")
 var utils = require("./utils.js")
 
 var api_key = "40e9cece"
 var url = "https://www.omdbapi.com/?apikey=" + api_key
 
 module.exports = {
-  Search: function(title, callback) {
+  Search: function(title) {
     var q = url + "&t=" + utils.WithPluses(title)
-    request(q, (err, res, body) => {
-      if (err) { console.error(err) }
-      if (res.statusCode !== 200) { console.log(q, res.statusCode) }
-      if (body) { callback(JSON.parse(body)) }
-    })
+    return request(q)
+      .catch((err) => console.error(err))
+      .then((body) => JSON.parse(body))
   },
 
   Fallback: function() {
-    this.Search("Mr Nobody", this.DisplayMovie)
+    return this.Search("Mr Nobody")
   },
 
   DisplayMovie: function(body) {
