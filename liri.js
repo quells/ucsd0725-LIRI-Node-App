@@ -1,20 +1,7 @@
-
+var utils = require("./utils.js")
 var twitter = require("./services/twitter.js")
 var spotify = require("./services/spotify.js")
 var omdb = require("./services/omdb.js")
-
-var fs = require("fs")
-fs.readFileAsync = function(filename) {
-  return new Promise(function(resolve, reject) {
-    try {
-      fs.readFile(filename, "utf8", function(err, data) {
-        if (err) { reject(err) } else { resolve(data) }
-      })
-    } catch (err) {
-      reject(err)
-    }
-  })
-}
 
 function HandleCommand(cmd, arg) {
   switch (cmd) {
@@ -39,7 +26,7 @@ function HandleCommand(cmd, arg) {
       }
     case "do-what-it-says":
       // Probably over-complicated sequential Promise resolution
-      return fs.readFileAsync("random.txt")
+      return utils.ReadFileAsync("random.txt")
         .then((data) => data.split("\n"))
         .then((cmds) => cmds.filter(c => c.length > 0))
         .then((cmds) => cmds.filter(c => c.split(",")[0] !== "do-what-it-says")) // Prevent infinite loops
@@ -53,7 +40,7 @@ function HandleCommand(cmd, arg) {
           for (var i = 0; i < pairs.length; i++) {
             p = p.then((pairs) => {
               var pair = pairs[0]
-              console.log("\n" + pair.join(" "))
+              utils.Log("\n" + pair.join(" "))
               return HandleCommand(pair[0], pair[1])
                 .then(() => pairs.slice(1))
             })
@@ -61,7 +48,7 @@ function HandleCommand(cmd, arg) {
         })
     default:
       return Promise.resolve("LIRI does not understand `" + cmd + "`.")
-        .then((t) => console.log(t))
+        .then((t) => utils.Log(t))
   }
 }
 

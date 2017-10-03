@@ -1,3 +1,4 @@
+var utils = require("../utils.js")
 var Spotify = require("node-spotify-api")
 var keys = require("../keys.js")
 var SpotifyClient = new Spotify(keys.spotify)
@@ -16,9 +17,9 @@ module.exports = {
     response.album.artists.forEach((a) => {
       artists.push(a.name)
     })
-    console.log("Artist/s: " + artists.join(", "))
-    console.log("Song: " + response.name)
-    console.log("Album: " + response.album.name)
-    console.log(response.external_urls.spotify)
+    utils.Log("Artist/s: " + artists.join(", "))
+    utils.Log("Song: " + response.name)
+    utils.Log("Album: " + response.album.name)
+    utils.Log(response.external_urls.spotify)
   },
 }

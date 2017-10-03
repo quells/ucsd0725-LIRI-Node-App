@@ -19,25 +19,25 @@ module.exports = {
 
   DisplayMovie: function(body) {
     if (body.Response === "True") {
-      console.log(body.Title + " (" + body.Year + ")")
+      utils.Log(body.Title + " (" + body.Year + ")")
 
       var rtFound = false
       for (var i = 0; i < body.Ratings.length; i++) {
         var rating = body.Ratings[i]
         if (rating.Source === "Rotten Tomatoes") {
-          console.log("Rotten Tomatoes: " + rating.Value)
+          utils.Log("Rotten Tomatoes: " + rating.Value)
           rtFound = true
           break
         }
       }
-      if (!rtFound) { console.log("Rotten Tomatoes: No Score Found") }
+      if (!rtFound) { utils.Log("Rotten Tomatoes: No Score Found") }
 
-      console.log("Produced in " + body.Country)
-      console.log("Presented in " + body.Language)
-      console.log("Spoilers: " + body.Plot)
-      console.log("Starring: " + body.Actors)
+      utils.Log("Produced in " + body.Country)
+      utils.Log("Presented in " + body.Language)
+      utils.Log("Spoilers: " + body.Plot)
+      utils.Log("Starring: " + body.Actors)
     } else {
-      console.log("Could not find movie")
+      utils.Log("Could not find movie")
     }
   },
 }

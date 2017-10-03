@@ -1,4 +1,5 @@
 var strftime = require("strftime")
+var utils = require("../utils.js")
 var Twitter = require("twitter")
 var keys = require("../keys.js")
 var TwitterClient = new Twitter(keys.twitter)
@@ -11,7 +12,7 @@ module.exports = {
   DisplayTweets: function(tweets) {
     tweets.forEach((t) => {
       var dateString = strftime('%F %T', new Date(t.created_at))
-      console.log("At " + dateString + ", " + t.user.name + " (@" + t.user.screen_name + ") said: `" + t.text + "`")
+      utils.Log("At " + dateString + ", " + t.user.name + " (@" + t.user.screen_name + ") said: `" + t.text + "`")
     })
   }
 }
