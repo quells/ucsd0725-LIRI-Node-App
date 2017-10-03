@@ -36,7 +36,7 @@ function DisplaySong(response) {
 function HandleCommand(cmd, arg) {
   switch (cmd) {
     case "my-tweets":
-      return TwitterClient.get("statuses/home_timeline", {count: 20})
+      return TwitterClient.get("statuses/user_timeline", {user_id: "zQLX28gZYmzs9PP"})
         .then((tweets, response) => tweets)
         .then((tweets) => {
           for (var i = 0; i < tweets.length; i++) {
