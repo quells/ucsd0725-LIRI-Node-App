@@ -1,6 +1,6 @@
 
 var request = require("request-promise-native")
-var utils = require("./utils.js")
+var utils = require("../utils.js")
 
 var api_key = "40e9cece"
 var url = "https://www.omdbapi.com/?apikey=" + api_key

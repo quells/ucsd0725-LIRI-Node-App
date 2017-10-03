@@ -1,4 +1,8 @@
 
+var twitter = require("./services/twitter.js")
+var spotify = require("./services/spotify.js")
+var omdb = require("./services/omdb.js")
+
 var fs = require("fs")
 fs.readFileAsync = function(filename) {
   return new Promise(function(resolve, reject) {
@@ -12,47 +16,18 @@ fs.readFileAsync = function(filename) {
   })
 }
 
-var Twitter = require("twitter")
-var Spotify = require("node-spotify-api")
-
-var keys = require("./keys.js")
-var utils = require("./utils.js")
-var omdb = require("./omdb.js")
-
-var TwitterClient = new Twitter(keys.twitter)
-var SpotifyClient = new Spotify(keys.spotify)
-
-function DisplaySong(response) {
-  var artists = []
-  response.album.artists.forEach((a) => {
-    artists.push(a.name)
-  })
-  console.log("Artist/s: " + artists.join(", "))
-  console.log("Song: " + response.name)
-  console.log("Album: " + response.album.name)
-  console.log(response.external_urls.spotify)
-}
-
 function HandleCommand(cmd, arg) {
   switch (cmd) {
     case "my-tweets":
-      return TwitterClient.get("statuses/user_timeline", {user_id: "zQLX28gZYmzs9PP"})
-        .then((tweets, response) => tweets)
-        .then((tweets) => {
-          for (var i = 0; i < tweets.length; i++) {
-            var t = tweets[i]
-            console.log("At " + t.created_at + ", @" + t.user.screen_name + " said: `" + t.text + "`")
-          }
-        })
+      return twitter.Statuses("zQLX28gZYmzs9PP")
+        .then((tweets) => twitter.DisplayTweets(tweets))
     case "spotify-this-song":
       if (arg === undefined) {
-        return SpotifyClient.request("https://api.spotify.com/v1/tracks/0hrBpAOgrt8RXigk83LLNE")
-          .then((response) => DisplaySong(response))
-          .catch((err) => console.error(err))
+        return spotify.Fallback()
+          .then((response) => spotify.DisplaySong(response))
       } else {
-        return SpotifyClient.search({type: "track", query: arg})
-          .then((response) => DisplaySong(response.tracks.items[0]))
-          .catch((err) => console.error(err))
+        return spotify.Search(arg)
+          .then((response) => spotify.DisplaySong(response.tracks.items[0]))
       }
     case "movie-this":
       if (arg === undefined) {

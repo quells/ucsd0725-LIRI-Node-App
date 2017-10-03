@@ -16,6 +16,7 @@
     "node-spotify-api": "^1.0.7",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
+    "strftime": "^0.10.0",
     "twitter": "^1.7.1"
   }
 }
